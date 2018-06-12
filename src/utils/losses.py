@@ -1,5 +1,6 @@
-from keras import backend as K
+
 import numpy as np
+from keras import backend as K
 
 
 def earth_movers_distance(y_true, y_pred):

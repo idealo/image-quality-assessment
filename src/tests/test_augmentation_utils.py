@@ -1,8 +1,8 @@
 
 import unittest
-from unittest.mock import patch
-from utils import utils
 import numpy as np
+from utils import utils
+from unittest.mock import patch
 
 
 class TestGetLabels(unittest.TestCase):
