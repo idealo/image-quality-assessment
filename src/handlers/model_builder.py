@@ -7,14 +7,15 @@ from utils.losses import earth_movers_distance
 
 
 class Nima:
-    def __init__(self, base_model_name, n_classes, learning_rate, dropout_rate, loss=earth_movers_distance,
-                 decay=0):
+    def __init__(self, base_model_name, n_classes=10, learning_rate=0.001, dropout_rate=0, loss=earth_movers_distance,
+                 decay=0, weights='imagenet'):
         self.n_classes = n_classes
         self.base_model_name = base_model_name
         self.learning_rate = learning_rate
         self.dropout_rate = dropout_rate
         self.loss = loss
         self.decay = decay
+        self.weights = weights
         self._get_base_module()
 
     def _get_base_module(self):
@@ -31,7 +32,7 @@ class Nima:
         BaseCnn = getattr(self.base_module, self.base_model_name)
 
         # load pre-trained model
-        self.base_model = BaseCnn(input_shape=(224, 224, 3), weights='imagenet', include_top=False, pooling='avg')
+        self.base_model = BaseCnn(input_shape=(224, 224, 3), weights=self.weights, include_top=False, pooling='avg')
 
         # add dropout and dense layer
         x = Dropout(self.dropout_rate)(self.base_model.output)
