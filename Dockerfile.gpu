@@ -1,4 +1,5 @@
 FROM tensorflow/tensorflow:latest-gpu-py3
+LABEL maintainer="christopher.lennan@idealo.de"
 
 # Install system packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -12,13 +13,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       wget && \
     rm -rf /var/lib/apt/lists/*
 
+# Install miniconda
+RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+    curl https://repo.continuum.io/miniconda/Miniconda3-4.3.27-Linux-x86_64.sh -o ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -f -b -p /opt/conda && \
+    rm ~/miniconda.sh
+
+ENV PATH /opt/conda/bin:$PATH
+
 COPY src /src
 COPY entrypoints/entrypoint.gpu.sh /entrypoint.sh
 
 WORKDIR /src
 
-RUN pip install -r requirements.txt
+# Create conda environment
+RUN conda env create -n nima -f environment.yml && rm -rf /opt/conda/pkgs/*
+ENV PATH /opt/conda/envs/nima/bin:$PATH
 
 ENV PYTHONPATH='/src/:$PYTHONPATH'
+ENV KERAS_BACKEND=tensorflow
 
 ENTRYPOINT ["/entrypoint.sh"]
