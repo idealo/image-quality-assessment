@@ -44,6 +44,11 @@ def normalize_labels(labels):
     return labels_np / labels_np.sum()
 
 
+def calc_mean_score(score_dist):
+    score_dist = normalize_labels(score_dist)
+    return (score_dist*np.arange(1, 11)).sum()
+
+
 def ensure_dir_exists(dir):
     if not os.path.exists(dir):
         os.makedirs(dir)
