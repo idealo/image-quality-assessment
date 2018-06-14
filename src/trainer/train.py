@@ -12,11 +12,26 @@ from utils.utils import ensure_dir_exists
 from utils.keras_utils import TensorBoardBatch
 
 
-def train(base_model_name, n_classes, samples, image_dir, batch_size, epochs_train_dense, epochs_train_all,
-          learning_rate_dense, learning_rate_all, dropout_rate, job_dir, img_format='jpg', existing_weights=None,
-          multiprocessing_data_load=False, num_workers_data_load=2, decay_dense=0, decay_all=0, **kwargs):
+def train(base_model_name,
+          n_classes,
+          samples,
+          image_dir,
+          batch_size,
+          epochs_train_dense,
+          epochs_train_all,
+          learning_rate_dense,
+          learning_rate_all,
+          dropout_rate,
+          job_dir,
+          img_format='jpg',
+          existing_weights=None,
+          multiprocessing_data_load=False,
+          num_workers_data_load=2,
+          decay_dense=0,
+          decay_all=0,
+          **kwargs):
 
-    # build NIMA model and load existing weights if they exist
+    # build NIMA model and load existing weights if they were provided in config
     nima = Nima(base_model_name, n_classes, learning_rate_dense, dropout_rate, decay=decay_dense)
     nima.build()
 
@@ -24,7 +39,7 @@ def train(base_model_name, n_classes, samples, image_dir, batch_size, epochs_tra
         nima.nima_model.load_weights(existing_weights)
 
     # split samples in train and validation set, and initialize data generators
-    samples_train, samples_test = train_test_split(samples, test_size=0.05, shuffle=True)
+    samples_train, samples_test = train_test_split(samples, test_size=0.05, shuffle=True, random_state=10207)
 
     training_generator = TrainDataGenerator(samples_train,
                                             image_dir,
