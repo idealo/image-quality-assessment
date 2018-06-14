@@ -5,7 +5,7 @@ from utils import utils
 from unittest.mock import patch
 
 
-class TestGetLabels(unittest.TestCase):
+class TestUtils(unittest.TestCase):
 
     @patch('numpy.random.randint')
     def test_random_crop(self, mock_np_random_randint):
