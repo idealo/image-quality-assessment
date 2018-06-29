@@ -1,0 +1,47 @@
+#!/bin/bash
+set -e
+
+# parse arguments
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    --docker-image)
+    DOCKER_IMAGE="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    --base-model-name)
+    BASE_MODEL_NAME="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    --weights-file)
+    WEIGHTS_FILE="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    --image-source)
+    IMAGE_SOURCE="$2"
+    shift # past argument
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
+
+
+BASENAME_IS=`basename $IMAGE_SOURCE`
+
+# start training
+DOCKER_RUN="docker run
+  --entrypoint entrypoints/entrypoint.predict.cpu.sh \
+  -v "$IMAGE_SOURCE":/src/$BASENAME_IS
+  -v "$WEIGHTS_FILE":/src/weights.hdf5
+  $DOCKER_IMAGE $BASE_MODEL_NAME /src/weights.hdf5 /src/$BASENAME_IS"
+
+eval $DOCKER_RUN
