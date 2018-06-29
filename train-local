@@ -1,9 +1,34 @@
 #!/bin/bash
 set -e
 
-CONFIG_FILE=$1
-SAMPLES_FILE=$2
-IMAGE_DIR=$3
+# parse arguments
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    --config-file)
+    CONFIG_FILE="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    --samples-file)
+    SAMPLES_FILE="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    --image-dir)
+    IMAGE_DIR="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
 
 # parse config file and assign parameters to variables
 eval "$(jq -r "to_entries|map(\"export \(.key)=\(.value|tostring)\")|.[]" $CONFIG_FILE)"
