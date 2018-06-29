@@ -1,0 +1,18 @@
+{
+  "s3_bucket": "",
+  "docker_image": "idealo/nima-gpu",
+  "base_model_name": "MobileNet",
+  "existing_weights": null,
+  "n_classes": 10,
+  "batch_size": 96,
+  "epochs_train_dense": 1,
+  "learning_rate_dense": 0.001,
+  "decay_dense": 0,
+  "epochs_train_all": 10,
+  "learning_rate_all": 0.000003,
+  "decay_all": 0.00015,
+  "dropout_rate": 0.75,
+  "multiprocessing_data_load": true,
+  "num_workers_data_load": 8,
+  "img_format": "jpg"
+}
