@@ -32,10 +32,7 @@ MobileNet technical | TID2013 | 0.107 |0.652|0.675
 
 1. Install [Docker](https://docs.docker.com/install/)
 
-2. Build docker image
-```
-docker build -t nima-cpu . -f Dockerfile.cpu
-```
+2. Build docker image `docker build -t nima-cpu . -f Dockerfile.cpu`
 
 In order to train remotely on **AWS EC2**
 
@@ -98,9 +95,9 @@ docker logs $CONTAINER_ID --follow
 aws configure
 ```
 
-2. Launch EC2 instance with **Docker Machine**. Choose an Ubuntu AMI based on your region (https://cloud-images.ubuntu.com/locator/ec2/).
-For example, to launch a **p2.xlarge** EC2 instance named **ec2-p2** with a Tesla K80 GPU run
-(**NB:** change region, VPC ID and AMI ID as per your setup)
+2. Launch EC2 instance with Docker Machine. Choose an Ubuntu AMI based on your region (https://cloud-images.ubuntu.com/locator/ec2/).
+For example, to launch a `p2.xlarge` EC2 instance named `ec2-p2` run
+(NB: change region, VPC ID and AMI ID as per your setup)
 ```
 docker-machine create --driver amazonec2 \
                       --amazonec2-region eu-west-1 \
