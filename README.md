@@ -5,6 +5,8 @@ NIMA consists of two models that aim to predict the aesthetic and technical qual
 
 The provided code allows to use any of the pre-trained models in [Keras](https://keras.io/applications/). We further provide Docker images for local CPU training and remote GPU training on AWS EC2, as well as pre-trained models on the [AVA](https://github.com/ylogx/aesthetics/tree/master/data/ava) and [TID2013](http://www.ponomarenko.info/tid2013.htm) datasets.
 
+We welcome all kinds of contributions, especially new model architectures and/or hyperparameter combinations that improve the performance of the currently published models.
+
 
 ## Trained models
 | <sub>Predictions from aesthetic model</sub>
@@ -120,6 +122,11 @@ docker-machine create --driver amazonec2 \
 ```
 The training progress will be streamed to your terminal. After the training has finished, the train outputs (logs and best model weights) will be stored on S3 in a timestamped folder. The S3 output bucket can be specified in the **config file**. The `--image-dir` argument requires the path of the image directory on your remote instance.
 
+
+## Contribute
+We welcome all kinds of contributions and will publish the performances from new models in the performance table under [Trained models](#trained_models).
+
+For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet weights, you just have to change the `base_model_name` parameter in the config file `models/MobileNet/config_mobilenet_aesthtic.json` to "InceptionV3". You can also control all major hyperparameters in the config file, like learning rate, batch size, or dropout rate.
 
 
 ## Datasets
