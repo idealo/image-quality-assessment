@@ -126,7 +126,7 @@ The training progress will be streamed to your terminal. After the training has 
 ## Contribute
 We welcome all kinds of contributions and will publish the performances from new models in the performance table under [Trained models](#trained-models).
 
-For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet weights, you just have to change the `base_model_name` parameter in the config file `models/MobileNet/config_mobilenet_aesthtic.json` to "InceptionV3". You can also control all major hyperparameters in the config file, like learning rate, batch size, or dropout rate.
+For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet weights, you just have to change the `base_model_name` parameter in the config file `models/MobileNet/config_mobilenet_aesthetic.json` to "InceptionV3". You can also control all major hyperparameters in the config file, like learning rate, batch size, or dropout rate.
 
 
 ## Datasets
