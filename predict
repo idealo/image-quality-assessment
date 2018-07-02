@@ -37,7 +37,7 @@ done
 
 BASENAME_IS=`basename $IMAGE_SOURCE`
 
-# start training
+# run predictions
 DOCKER_RUN="docker run
   --entrypoint entrypoints/entrypoint.predict.cpu.sh \
   -v "$IMAGE_SOURCE":/src/$BASENAME_IS
