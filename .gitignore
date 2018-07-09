@@ -109,3 +109,4 @@ venv.bak/
 .idea/
 .pyre
 train_jobs
+_medium
