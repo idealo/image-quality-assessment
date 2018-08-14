@@ -131,10 +131,10 @@ For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet w
 
 ## Datasets
 This project uses two datasets to train the NIMA model:
-1. [**AVA**](https://github.com/ylogx/aesthetics/tree/master/data/ava) used for aesthetic rating
-2. [**TID2013**](http://www.ponomarenko.info/tid2013.htm) used for technical rating
+1. [**AVA**](https://github.com/ylogx/aesthetics/tree/master/data/ava) used for aesthetic ratings ([data](http://academictorrents.com/details/71631f83b11d3d79d8f84efe0a7e12f0ac001460))
+2. [**TID2013**](http://www.ponomarenko.info/tid2013.htm) used for technical ratings
 
-This [discussion](https://www.reddit.com/comments/5sa3ag) provides further details on how to download the AVA dataset. For training on AWS EC2 we recommend to build a custom AMI with the AVA images stored on it. This has proven much more viable than copying the entire dataset from S3 to the instance for each training job.
+For training on AWS EC2 we recommend to build a custom AMI with the AVA images stored on it. This has proven much more viable than copying the entire dataset from S3 to the instance for each training job.
 
 
 ## Label files
