@@ -109,7 +109,7 @@ docker-machine create --driver amazonec2 \
                       ec2-p2
 ```
 
-3. ssh into EC2 instance
+3. ssh into instance
 
 ```
 docker-machine ssh ec2-p2
