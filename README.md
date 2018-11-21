@@ -109,10 +109,29 @@ docker-machine create --driver amazonec2 \
                       ec2-p2
 ```
 
-3. Download dataset to EC2 instance (see instructions under [Datasets](#datasets)). We recommend to save the AMI with the downloaded data for future use.
+3. ssh into instance
+
+```
+docker-machine ssh ec2-p2
+```
+
+4. Update NVIDIA drivers and install **nvidia-docker** (see this [blog post](https://towardsdatascience.com/using-docker-to-set-up-a-deep-learning-environment-on-aws-6af37a78c551) for more details)
+
+```
+# update NVIDIA drivers
+sudo add-apt-repository ppa:graphics-drivers/ppa -y
+sudo apt-get update
+sudo apt-get install -y nvidia-375 nvidia-settings nvidia-modprobe
+
+# install nvidia-docker
+wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1-1_amd64.deb
+sudo dpkg -i /tmp/nvidia-docker_1.0.1-1_amd64.deb && rm /tmp/nvidia-docker_1.0.1-1_amd64.deb
+```
+
+5. Download dataset to EC2 instance (see instructions under [Datasets](#datasets)). We recommend to save the AMI with the downloaded data for future use.
 
 
-4. Run the remote EC2 training script (e.g. for AVA dataset)
+6. Run the remote EC2 training script (e.g. for AVA dataset)
 ```
 ./train-ec2 \
 --docker-machine ec2-p2 \
