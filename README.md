@@ -189,6 +189,21 @@ data/TID2013/tid2013_labels_test.json
 
 For the AVA dataset we randomly assigned 90% of samples to the train set, and 10% to the test set, and throughout training a 5% validation set will be split from the training set to evaluate the training performance after each epoch. For the TID2013 dataset we split the train/test sets by reference images, to ensure that no reference image, and any of its distortions, enters both the train and test set.
 
+## Serving NIMA with TensorFlow Serving
+TensorFlow versions of both the technical and aesthetic MobileNet models are provided,
+along with the script to generate them from the original Keras files, under the `src/contrib/tf_serving` directory.
+
+There is also an already configured TFS `Dockerfile` that you can use.
+
+Build the NIMA TFS container: 
+1. cd into `src/contrib/tf_serving`
+2. run `docker build -t tfs_nima .`
+
+Run the NIMA TFS container with:
+1. `docker run -d --name tfs_nima -p 8500:8500 tfs_nima`
+
+You can use the `tfs_sample_client.py` script to get predictions from the TFS models.
+
 ## Maintainers
 * Christopher Lennan, github: [clennan](https://github.com/clennan)
 * Hao Nguyen, github: [MrBanhBao](https://github.com/MrBanhBao)
