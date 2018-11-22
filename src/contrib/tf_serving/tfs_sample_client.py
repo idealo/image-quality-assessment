@@ -45,5 +45,3 @@ def get_image_quality_predictions(image_path):
 
     return result
 
-
-print(get_image_quality_predictions('/home/bmachin/Downloads/technical1.jpg'))
