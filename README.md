@@ -1,4 +1,8 @@
 # Image quality assessment
+
+[![Build Status](https://travis-ci.org/idealo/image-quality-assessment.svg?branch=master)](https://travis-ci.org/idealo/image-quality-assessment)
+[![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](https://github.com/idealo/image-quality-assessment/blob/master/LICENSE)
+
 This repository provides an implementation of an aesthetic and technical image quality model based on Google's research paper ["NIMA: Neural Image Assessment"](https://arxiv.org/pdf/1709.05424.pdf). You can find a quick introduction on their [Research Blog](https://research.googleblog.com/2017/12/introducing-nima-neural-image-assessment.html).
 
 NIMA consists of two models that aim to predict the aesthetic and technical quality of images, respectively. The models are trained via transfer learning, where ImageNet pre-trained CNNs are used and fine-tuned for the classification task.
