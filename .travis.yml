@@ -1,0 +1,8 @@
+language: python
+python:
+  - "3.6"
+install:
+  - pip install -r src/requirements.txt
+  - pip install tensorflow==1.13.1
+script:
+  - nosetests -vs src/tests
