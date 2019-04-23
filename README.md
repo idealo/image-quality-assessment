@@ -214,6 +214,16 @@ python -m contrib.tf_serving.tfs_sample_client --image-path src/tests/test_image
 python -m contrib.tf_serving.tfs_sample_client --image-path src/tests/test_images/42039.jpg --model-name mobilenet_technical
 ```
 
+## Cite this work
+Please cite Image Quality Assessment in your publications if this is useful for your research. Here is an example BibTeX entry:
+```
+@misc{idealods2018imagequalityassessment,
+  title={Image Quality Assessment},
+  author={Christopher Lennan and Hao Nguyen and Dat Tran},
+  year={2018},
+  howpublished={\url{https://github.com/idealo/image-quality-assessment}},
+}
+```
 
 ## Maintainers
 * Christopher Lennan, github: [clennan](https://github.com/clennan)
