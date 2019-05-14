@@ -4,8 +4,8 @@ import keras
 import numpy as np
 import tensorflow as tf
 from src.utils import utils
-from grpc.beta import implementations
-from tensorflow_serving.apis import predict_pb2, prediction_service_pb2
+import grpc
+from tensorflow_serving.apis import predict_pb2, prediction_service_pb2_grpc
 
 TFS_HOST = 'localhost'
 TFS_PORT = 8500
@@ -27,8 +27,9 @@ def get_image_quality_predictions(image_path, model_name):
     image = keras.applications.mobilenet.preprocess_input(image)
 
     # Run through model
-    channel = implementations.insecure_channel(TFS_HOST, TFS_PORT)
-    stub = prediction_service_pb2.beta_create_PredictionService_stub(channel)
+    target = f'{TFS_HOST}:{TFS_PORT}'
+    channel = grpc.insecure_channel(target)
+    stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
     request = predict_pb2.PredictRequest()
     request.model_spec.name = model_name
     request.model_spec.signature_name = 'image_quality'
