@@ -1,4 +1,4 @@
-# Image quality assessment
+# Image Quality Assessment
 
 [![Build Status](https://travis-ci.org/idealo/image-quality-assessment.svg?branch=master)](https://travis-ci.org/idealo/image-quality-assessment)
 [![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](https://github.com/idealo/image-quality-assessment/blob/master/LICENSE)
@@ -7,9 +7,16 @@ This repository provides an implementation of an aesthetic and technical image q
 
 NIMA consists of two models that aim to predict the aesthetic and technical quality of images, respectively. The models are trained via transfer learning, where ImageNet pre-trained CNNs are used and fine-tuned for the classification task.
 
+For more information on how we used NIMA for our specifc problem, we did a write-up on two blog posts:
+
+* NVIDIA Developer Blog: [Deep Learning for Classifying Hotel Aesthetics Photos](https://devblogs.nvidia.com/deep-learning-hotel-aesthetics-photos/)
+* Medium: [Using Deep Learning to automatically rank millions of hotel images](https://medium.com/idealo-tech-blog/using-deep-learning-to-automatically-rank-millions-of-hotel-images-c7e2d2e5cae2)
+
 The provided code allows to use any of the pre-trained models in [Keras](https://keras.io/applications/). We further provide Docker images for local CPU training and remote GPU training on AWS EC2, as well as pre-trained models on the [AVA](https://github.com/ylogx/aesthetics/tree/master/data/ava) and [TID2013](http://www.ponomarenko.info/tid2013.htm) datasets.
 
-We welcome all kinds of contributions, especially new model architectures and/or hyperparameter combinations that improve the performance of the currently published models (see [Contribute](#contribute)).
+Read the full documentation at: [https://idealo.github.io/image-quality-assessment/](https://idealo.github.io/image-quality-assessment/).
+
+Image quality assessment is compatible with Python 3.6 and is distributed under the Apache 2.0 license. We welcome all kinds of contributions, especially new model architectures and/or hyperparameter combinations that improve the performance of the currently published models (see [Contribute](#contribute)).
 
 
 ## Trained models
@@ -151,6 +158,7 @@ We welcome all kinds of contributions and will publish the performances from new
 
 For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet weights, you just have to change the `base_model_name` parameter in the config file `models/MobileNet/config_mobilenet_aesthetic.json` to "InceptionV3". You can also control all major hyperparameters in the config file, like learning rate, batch size, or dropout rate.
 
+See the [Contribution](CONTRIBUTING.md) guide for more details.
 
 ## Datasets
 This project uses two datasets to train the NIMA model:
@@ -228,7 +236,7 @@ Please cite Image Quality Assessment in your publications if this is useful for 
 ## Maintainers
 * Christopher Lennan, github: [clennan](https://github.com/clennan)
 * Hao Nguyen, github: [MrBanhBao](https://github.com/MrBanhBao)
-
+* Dat Tran, github: [datitran](https://github.com/datitran)
 
 ## Copyright
 

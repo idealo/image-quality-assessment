@@ -111,3 +111,13 @@ venv.bak/
 train_jobs
 _medium
 _readme/graphs.ipynb
+mkdocs/docs/_readme/
+mkdocs/docs/evaluater/
+mkdocs/docs/handlers/
+mkdocs/docs/tests/
+mkdocs/docs/trainer/
+mkdocs/docs/utils/
+mkdocs/docs/index.md
+mkdocs/docs/CONTRIBUTING.md
+mkdocs/docs/LICENSE.md
+/docs
