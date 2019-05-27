@@ -29,5 +29,9 @@ theme:
 repo_name: 'idealo/image-quality-assessment'
 repo_url: 'https://github.com/idealo/image-quality-assessment'
 
+google_analytics:
+  - 'UA-137434942-3'
+  - 'auto'
+
 markdown_extensions:
   - codehilite
