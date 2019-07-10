@@ -1,4 +1,3 @@
-
 import os
 import glob
 import json
@@ -6,11 +5,15 @@ import argparse
 from utils.utils import calc_mean_score, save_json
 from handlers.model_builder import Nima
 from handlers.data_generator import TestDataGenerator
+from keras import backend as K
+from PIL import ImageFile, Image
 
 
 def image_file_to_json(img_path):
     img_dir = os.path.dirname(img_path)
-    img_id = os.path.basename(img_path).split('.')[0]
+    splits = os.path.basename(img_path).split('.')
+    splits.pop()
+    img_id = ".".join(splits)
 
     return img_dir, [{'image_id': img_id}]
 
@@ -20,7 +23,9 @@ def image_dir_to_json(img_dir, img_type='jpg'):
 
     samples = []
     for img_path in img_paths:
-        img_id = os.path.basename(img_path).split('.')[0]
+        splits = os.path.basename(img_path).split('.')
+        splits.pop()
+        img_id = ".".join(splits)
         samples.append({'image_id': img_id})
 
     return samples
@@ -38,6 +43,9 @@ def main(base_model_name, weights_file, image_source, predictions_file, img_form
         image_dir = image_source
         samples = image_dir_to_json(image_dir, img_type='jpg')
 
+    ImageFile.LOAD_TRUNCATED_IMAGES = True
+    Image.MAX_IMAGE_PIXELS = None
+
     # build model and load weights
     nima = Nima(base_model_name, weights=None)
     nima.build()
@@ -49,15 +57,16 @@ def main(base_model_name, weights_file, image_source, predictions_file, img_form
 
     # get predictions
     predictions = predict(nima.nima_model, data_generator)
+    K.clear_session()
 
     # calc mean scores and add to samples
     for i, sample in enumerate(samples):
         sample['mean_score_prediction'] = calc_mean_score(predictions[i])
 
-    print(json.dumps(samples, indent=2))
-
     if predictions_file is not None:
         save_json(samples, predictions_file)
+
+    return samples
 
 
 if __name__ == '__main__':
