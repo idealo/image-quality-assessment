@@ -22,4 +22,4 @@ RUN pip install -r requirements.txt
 
 ENV PYTHONPATH='/src/:$PYTHONPATH'
 
-ENTRYPOINT ["entrypoints/entrypoint.server.sh"]
+ENTRYPOINT ["entrypoints/entrypoint.predict.server.sh"]
