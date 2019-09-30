@@ -22,12 +22,12 @@ Image quality assessment is compatible with Python 3.6 and is distributed under 
 ## Trained models
 | <sub>Predictions from aesthetic model</sub>
 | :--:
-| ![](_readme/images_aesthetic/aesthetic1.jpg_aesthetic.svg)
+| ![](readme_figures/images_aesthetic/aesthetic1.jpg_aesthetic.svg)
 
 
 | <sub>Predictions from technical model</sub>
 | :--:
-| ![](_readme/images_technical/techncial3.jpgtechnical.svg)
+| ![](readme_figures/images_technical/techncial3.jpgtechnical.svg)
 
 
 
