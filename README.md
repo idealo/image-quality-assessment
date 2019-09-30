@@ -162,6 +162,7 @@ See the [Contribution](CONTRIBUTING.md) guide for more details.
 
 ## Datasets
 This project uses two datasets to train the NIMA model:
+
 1. [**AVA**](https://github.com/ylogx/aesthetics/tree/master/data/ava) used for aesthetic ratings ([data](http://academictorrents.com/details/71631f83b11d3d79d8f84efe0a7e12f0ac001460))
 2. [**TID2013**](http://www.ponomarenko.info/tid2013.htm) used for technical ratings
 
