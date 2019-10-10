@@ -1,0 +1,37 @@
+site_name: Image Quality Assessment
+site_author: idealo Data Science Team
+
+nav:
+    - Home: index.md
+    - Documentation:
+        - Evaluater:
+          - Predict: evaluater/predict.md
+        - Handlers:
+          - Config Loader: handlers/config_loader.md
+          - Data Generator: handlers/data_generator.md
+          - Model Builder: handlers/model_builder.md
+          - Samples Loader: handlers/samples_loader.md
+        - Trainer:
+          - Train: trainer/train.md
+        - Utils:
+          - Keras Utils: utils/keras_utils.md
+          - Losses: utils/losses.md
+          - Utils: utils/utils.md
+    - Contribution: CONTRIBUTING.md
+    - License: LICENSE.md
+theme:
+  name: 'material'
+  palette:
+    primary: 'white'
+  logo: 'img/logo.svg'
+  favicon: 'img/favicon.ico'
+
+repo_name: 'idealo/image-quality-assessment'
+repo_url: 'https://github.com/idealo/image-quality-assessment'
+
+google_analytics:
+  - 'UA-137434942-3'
+  - 'auto'
+
+markdown_extensions:
+  - codehilite

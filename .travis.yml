@@ -1,0 +1,21 @@
+language: python
+python:
+- '3.6'
+install:
+- pip install -r src/requirements.txt
+- pip install tensorflow==1.13.1
+- pip install mkdocs==1.0.4 mkdocs-material==4.3.0
+script:
+- nosetests -vs src/tests
+- cd mkdocs && sh build_docs.sh
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: "$GITHUB_TOKEN"
+  local-dir: docs/
+  on:
+    branch: master
+  target_branch: gh-pages
+env:
+  global:
+    secure: fvEEhJ4M7WCK5LwlcZBaneI0kwMKmySxGjVG4nNOlyi53YREKMgFpu8erQLcbrMwXrqcna4F0MmhTAW3OsjFwPiWzspqDF8ptIeBpPAdFdGkZUZ2Ylpu/J3iT+mQbKBuFKtm5znxvzvWyMLd0uyTr7U4lKEdVa8EJ4AM3AQuIab/4l7REGVTQqH+oY7phnPqKf2PcbzUcyw6ZWJ6nsHJnh2ql1nD2/26NQWx2FEM37GdIT0qZTbJRgHW37GOCfdTjMdUzdlEAs9CQew9wTxj+dcgWKWGBnZbmeExi/2QM7ITddHlx+y994tg9Gz1Zh6GmcQqj/vGwF3O8jDgtbB8yaQZlAeuoBGBRYSqzcLbita06gaKEOxo0u0/rtXzCpKziwTXaWyf9ZHySb3CAlwWkwlvA8zJQLaqTxWvmupABn0WBUmE/keIKxgeW5OAwJ9yE4EKrJPmaEDwm1BWjnCcBeyspfc+00VBSnMId3ZUvd/zGiBjRaAHaOqfwpYc4bEozmgToLbB3+OQdTAcFBnT+ownt8KFmDVFGMvE1tfCvA6oAOEebXFHC5rV27DIH1sIG+L4LDFhKKw+Pw7aeO+Ljk4JCUChPLsl1wUw5UGx1tFSfld3n1NPf9O59eD5jgACUM3j4X5q8bOZGNh06HIITFeKiaatjGRWHNwtDwlU4Ao=

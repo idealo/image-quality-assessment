@@ -1,22 +1,33 @@
-# Image quality assessment
+# Image Quality Assessment
+
+[![Build Status](https://travis-ci.org/idealo/image-quality-assessment.svg?branch=master)](https://travis-ci.org/idealo/image-quality-assessment)
+[![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](https://github.com/idealo/image-quality-assessment/blob/master/LICENSE)
+
 This repository provides an implementation of an aesthetic and technical image quality model based on Google's research paper ["NIMA: Neural Image Assessment"](https://arxiv.org/pdf/1709.05424.pdf). You can find a quick introduction on their [Research Blog](https://research.googleblog.com/2017/12/introducing-nima-neural-image-assessment.html).
 
 NIMA consists of two models that aim to predict the aesthetic and technical quality of images, respectively. The models are trained via transfer learning, where ImageNet pre-trained CNNs are used and fine-tuned for the classification task.
 
+For more information on how we used NIMA for our specifc problem, we did a write-up on two blog posts:
+
+* NVIDIA Developer Blog: [Deep Learning for Classifying Hotel Aesthetics Photos](https://devblogs.nvidia.com/deep-learning-hotel-aesthetics-photos/)
+* Medium: [Using Deep Learning to automatically rank millions of hotel images](https://medium.com/idealo-tech-blog/using-deep-learning-to-automatically-rank-millions-of-hotel-images-c7e2d2e5cae2)
+
 The provided code allows to use any of the pre-trained models in [Keras](https://keras.io/applications/). We further provide Docker images for local CPU training and remote GPU training on AWS EC2, as well as pre-trained models on the [AVA](https://github.com/ylogx/aesthetics/tree/master/data/ava) and [TID2013](http://www.ponomarenko.info/tid2013.htm) datasets.
 
-We welcome all kinds of contributions, especially new model architectures and/or hyperparameter combinations that improve the performance of the currently published models (see [Contribute](#contribute)).
+Read the full documentation at: [https://idealo.github.io/image-quality-assessment/](https://idealo.github.io/image-quality-assessment/).
+
+Image quality assessment is compatible with Python 3.6 and is distributed under the Apache 2.0 license. We welcome all kinds of contributions, especially new model architectures and/or hyperparameter combinations that improve the performance of the currently published models (see [Contribute](#contribute)).
 
 
 ## Trained models
 | <sub>Predictions from aesthetic model</sub>
 | :--:
-| ![](/_readme/images_aesthetic/aesthetic1.jpg_aesthetic.svg)
+| ![](readme_figures/images_aesthetic/aesthetic1.jpg_aesthetic.svg)
 
 
 | <sub>Predictions from technical model</sub>
 | :--:
-| ![](/_readme/images_technical/techncial3.jpgtechnical.svg)
+| ![](readme_figures/images_technical/techncial3.jpgtechnical.svg)
 
 
 
@@ -109,10 +120,29 @@ docker-machine create --driver amazonec2 \
                       ec2-p2
 ```
 
-3. Download dataset to EC2 instance (see instructions under [Datasets](#datasets)). We recommend to save the AMI with the downloaded data for future use.
+3. ssh into EC2 instance
+
+```
+docker-machine ssh ec2-p2
+```
+
+4. Update NVIDIA drivers and install **nvidia-docker** (see this [blog post](https://towardsdatascience.com/using-docker-to-set-up-a-deep-learning-environment-on-aws-6af37a78c551) for more details)
+
+```
+# update NVIDIA drivers
+sudo add-apt-repository ppa:graphics-drivers/ppa -y
+sudo apt-get update
+sudo apt-get install -y nvidia-375 nvidia-settings nvidia-modprobe
+
+# install nvidia-docker
+wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1-1_amd64.deb
+sudo dpkg -i /tmp/nvidia-docker_1.0.1-1_amd64.deb && rm /tmp/nvidia-docker_1.0.1-1_amd64.deb
+```
+
+5. Download dataset to EC2 instance (see instructions under [Datasets](#datasets)). We recommend to save the AMI with the downloaded data for future use.
 
 
-4. Run the remote EC2 training script (e.g. for AVA dataset)
+6. Run the remote EC2 training script (e.g. for AVA dataset)
 ```
 ./train-ec2 \
 --docker-machine ec2-p2 \
@@ -128,6 +158,7 @@ We welcome all kinds of contributions and will publish the performances from new
 
 For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet weights, you just have to change the `base_model_name` parameter in the config file `models/MobileNet/config_mobilenet_aesthetic.json` to "InceptionV3". You can also control all major hyperparameters in the config file, like learning rate, batch size, or dropout rate.
 
+See the [Contribution](CONTRIBUTING.md) guide for more details.
 
 ## Datasets
 This project uses two datasets to train the NIMA model:
@@ -170,10 +201,42 @@ data/TID2013/tid2013_labels_test.json
 
 For the AVA dataset we randomly assigned 90% of samples to the train set, and 10% to the test set, and throughout training a 5% validation set will be split from the training set to evaluate the training performance after each epoch. For the TID2013 dataset we split the train/test sets by reference images, to ensure that no reference image, and any of its distortions, enters both the train and test set.
 
+## Serving NIMA with TensorFlow Serving
+TensorFlow versions of both the technical and aesthetic MobileNet models are provided,
+along with the script to generate them from the original Keras files, under the `contrib/tf_serving` directory.
+
+There is also an already configured TFS `Dockerfile` that you can use.
+
+To get predictions from the aesthetic or technical model:
+1. Build the NIMA TFS Docker image `docker build -t tfs_nima contrib/tf_serving`
+2. Run a NIMA TFS container with `docker run -d --name tfs_nima -p 8500:8500 tfs_nima`
+3. Install python dependencies to run TF serving sample client
+```
+virtualenv -p python3 contrib/tf_serving/venv_tfs_nima
+source contrib/tf_serving/venv_tfs_nima/bin/activate
+pip install -r contrib/tf_serving/requirements.txt
+```
+4. Get predictions from aesthetic or technical model by running the sample client
+```
+python -m contrib.tf_serving.tfs_sample_client --image-path src/tests/test_images/42039.jpg --model-name mobilenet_aesthetic
+python -m contrib.tf_serving.tfs_sample_client --image-path src/tests/test_images/42039.jpg --model-name mobilenet_technical
+```
+
+## Cite this work
+Please cite Image Quality Assessment in your publications if this is useful for your research. Here is an example BibTeX entry:
+```
+@misc{idealods2018imagequalityassessment,
+  title={Image Quality Assessment},
+  author={Christopher Lennan and Hao Nguyen and Dat Tran},
+  year={2018},
+  howpublished={\url{https://github.com/idealo/image-quality-assessment}},
+}
+```
+
 ## Maintainers
 * Christopher Lennan, github: [clennan](https://github.com/clennan)
 * Hao Nguyen, github: [MrBanhBao](https://github.com/MrBanhBao)
-
+* Dat Tran, github: [datitran](https://github.com/datitran)
 
 ## Copyright
 
