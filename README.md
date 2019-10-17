@@ -43,15 +43,17 @@ MobileNet technical | TID2013 | 0.107 |0.652|0.675
 
 ## Getting started
 
-1. Install [Docker](https://docs.docker.com/install/)
+1. Install [jq](https://stedolan.github.io/jq/download/)
 
-2. Build docker image `docker build -t nima-cpu . -f Dockerfile.cpu`
+2. Install [Docker](https://docs.docker.com/install/)
+
+3. Build docker image `docker build -t nima-cpu . -f Dockerfile.cpu`
 
 In order to train remotely on **AWS EC2**
 
-3. Install [Docker Machine](https://docs.docker.com/machine/install-machine/)
+4. Install [Docker Machine](https://docs.docker.com/machine/install-machine/)
 
-4. Install [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html)
+5. Install [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html)
 
 
 ## Predict
