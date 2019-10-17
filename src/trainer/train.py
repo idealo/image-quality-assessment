@@ -79,7 +79,7 @@ def train(base_model_name,
                                   verbose=1,
                                   use_multiprocessing=multiprocessing_data_load,
                                   workers=num_workers_data_load,
-                                  max_q_size=30,
+                                  max_queue_size=30,
                                   callbacks=[tensorboard, model_checkpointer])
 
     # start training all layers
@@ -98,7 +98,7 @@ def train(base_model_name,
                                   verbose=1,
                                   use_multiprocessing=multiprocessing_data_load,
                                   workers=num_workers_data_load,
-                                  max_q_size=30,
+                                  max_queue_size=30,
                                   callbacks=[tensorboard, model_checkpointer])
 
     K.clear_session()
