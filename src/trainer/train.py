@@ -1,8 +1,8 @@
 
 import os
 import argparse
-from keras import backend as K
-from keras.callbacks import ModelCheckpoint
+from tensorflow.keras import backend as K
+from tensorflow.keras.callbacks import ModelCheckpoint
 from sklearn.model_selection import train_test_split
 from handlers.data_generator import TrainDataGenerator, TestDataGenerator
 from handlers.model_builder import Nima

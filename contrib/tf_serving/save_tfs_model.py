@@ -1,7 +1,7 @@
-import keras.backend as K
+import tensorflow.keras.backend as K
 import argparse
-from keras.applications.mobilenet import DepthwiseConv2D, relu6
-from keras.utils.generic_utils import CustomObjectScope
+from tensorflow.keras.applications.mobilenet import DepthwiseConv2D, relu6
+from tensorflow.keras.utils.generic_utils import CustomObjectScope
 from tensorflow.python.saved_model import builder as saved_model_builder
 from tensorflow.python.saved_model import tag_constants
 from tensorflow.python.saved_model.signature_def_utils_impl import \
