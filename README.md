@@ -86,7 +86,7 @@ In order to run predictions on an image or batch of images you can run the predi
     ./train-local \
     --config-file $(pwd)/models/MobileNet/config_technical_cpu.json \
     --samples-file $(pwd)/data/TID2013/tid_labels_train.json \
-    --image-dir /Users/christopher.lennan/hotel-image-assessment/data/tid2013/images
+    --image-dir /path/to/image/dir/local
     ```
 This will start a training container from the Docker image `nima-cpu` and create a timestamp train job folder under `train_jobs`, where the trained model weights and logs will be stored. The `--image-dir` argument requires the path of the image directory on your local machine.
 

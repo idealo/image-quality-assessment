@@ -1,6 +1,5 @@
 {
   "train_env": "remote",
-  "s3_bucket": "ds-hotel-image-assessment",
   "docker_image": "nima-cpu",
   "base_model_name": "MobileNet",
   "existing_weights": null,
