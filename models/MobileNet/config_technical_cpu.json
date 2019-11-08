@@ -1,0 +1,18 @@
+{
+  "train_env": "TID2013",
+  "docker_image": "nima-cpu",
+  "base_model_name": "MobileNet",
+  "existing_weights": null,
+  "n_classes": 10,
+  "batch_size": 8,
+  "epochs_train_dense": 1,
+  "learning_rate_dense": 0.001,
+  "decay_dense": 0,
+  "epochs_train_all": 5,
+  "learning_rate_all": 0.0000003,
+  "decay_all": 0,
+  "dropout_rate": 0.75,
+  "multiprocessing_data_load": false,
+  "num_workers_data_load": 10,
+  "img_format": "bmp"
+}

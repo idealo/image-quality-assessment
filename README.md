@@ -84,9 +84,9 @@ In order to run predictions on an image or batch of images you can run the predi
 2. Run the local training script (e.g. for TID2013 dataset)
     ```bash
     ./train-local \
-    --config-file $(pwd)/models/MobileNet/config_mobilenet_technical.json \
+    --config-file $(pwd)/models/MobileNet/config_technical_cpu.json \
     --samples-file $(pwd)/data/TID2013/tid_labels_train.json \
-    --image-dir /path/to/image/dir/local
+    --image-dir /Users/christopher.lennan/hotel-image-assessment/data/tid2013/images
     ```
 This will start a training container from the Docker image `nima-cpu` and create a timestamp train job folder under `train_jobs`, where the trained model weights and logs will be stored. The `--image-dir` argument requires the path of the image directory on your local machine.
 
@@ -132,19 +132,19 @@ For example, to launch a `p2.xlarge` EC2 instance named `ec2-p2` run
     sudo add-apt-repository ppa:graphics-drivers/ppa -y
     sudo apt-get update
     sudo apt-get install -y nvidia-375 nvidia-settings nvidia-modprobe
-    
+
     # install nvidia-docker
     wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1-1_amd64.deb
     sudo dpkg -i /tmp/nvidia-docker_1.0.1-1_amd64.deb && rm /tmp/nvidia-docker_1.0.1-1_amd64.deb
     ```
-   
+
 5. Download dataset to EC2 instance (see instructions under [Datasets](#datasets)). We recommend to save the AMI with the downloaded data for future use.
 
 6. Run the remote EC2 training script (e.g. for AVA dataset)
     ```bash
     ./train-ec2 \
     --docker-machine ec2-p2 \
-    --config-file $(pwd)/models/MobileNet/config_mobilenet_aesthetic.json \
+    --config-file $(pwd)/models/MobileNet/config_aesthetic_gpu.json \
     --samples-file $(pwd)/data/AVA/ava_labels_train.json \
     --image-dir /path/to/image/dir/remote
     ```
@@ -154,7 +154,7 @@ The training progress will be streamed to your terminal. After the training has 
 ## Contribute
 We welcome all kinds of contributions and will publish the performances from new models in the performance table under [Trained models](#trained-models).
 
-For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet weights, you just have to change the `base_model_name` parameter in the config file `models/MobileNet/config_mobilenet_aesthetic.json` to "InceptionV3". You can also control all major hyperparameters in the config file, like learning rate, batch size, or dropout rate.
+For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet weights, you just have to change the `base_model_name` parameter in the config file `models/MobileNet/config_aesthetic_gpu.json` to "InceptionV3". You can also control all major hyperparameters in the config file, like learning rate, batch size, or dropout rate.
 
 See the [Contribution](CONTRIBUTING.md) guide for more details.
 
