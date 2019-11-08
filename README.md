@@ -1,6 +1,7 @@
 # Image Quality Assessment
 
 [![Build Status](https://travis-ci.org/idealo/image-quality-assessment.svg?branch=master)](https://travis-ci.org/idealo/image-quality-assessment)
+[![Docs](https://img.shields.io/badge/docs-online-brightgreen)](https://idealo.github.io/image-quality-assessment/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](https://github.com/idealo/image-quality-assessment/blob/master/LICENSE)
 
 This repository provides an implementation of an aesthetic and technical image quality model based on Google's research paper ["NIMA: Neural Image Assessment"](https://arxiv.org/pdf/1709.05424.pdf). You can find a quick introduction on their [Research Blog](https://research.googleblog.com/2017/12/introducing-nima-neural-image-assessment.html).
@@ -60,22 +61,22 @@ In order to train remotely on **AWS EC2**
 In order to run predictions on an image or batch of images you can run the prediction script
 
 1. Single image file
-```
-./predict  \
---docker-image nima-cpu \
---base-model-name MobileNet \
---weights-file $(pwd)/models/MobileNet/weights_mobilenet_technical_0.11.hdf5 \
---image-source $(pwd)/src/tests/test_images/42039.jpg
-```
+    ```bash
+    ./predict  \
+    --docker-image nima-cpu \
+    --base-model-name MobileNet \
+    --weights-file $(pwd)/models/MobileNet/weights_mobilenet_technical_0.11.hdf5 \
+    --image-source $(pwd)/src/tests/test_images/42039.jpg
+    ```
 
 2. All image files in a directory
-```
-./predict  \
---docker-image nima-cpu \
---base-model-name MobileNet \
---weights-file $(pwd)/models/MobileNet/weights_mobilenet_technical_0.11.hdf5 \
---image-source $(pwd)/src/tests/test_images
-```
+    ```bash
+    ./predict  \
+    --docker-image nima-cpu \
+    --base-model-name MobileNet \
+    --weights-file $(pwd)/models/MobileNet/weights_mobilenet_technical_0.11.hdf5 \
+    --image-source $(pwd)/src/tests/test_images
+    ```
 
 
 ## Train locally on CPU
@@ -83,82 +84,79 @@ In order to run predictions on an image or batch of images you can run the predi
 1. Download dataset (see instructions under [Datasets](#datasets))
 
 2. Run the local training script (e.g. for TID2013 dataset)
-```
-./train-local \
---config-file $(pwd)/models/MobileNet/config_mobilenet_technical.json \
---samples-file $(pwd)/data/TID2013/tid_labels_train.json \
---image-dir /path/to/image/dir/local
-```
+    ```bash
+    ./train-local \
+    --config-file $(pwd)/models/MobileNet/config_technical_cpu.json \
+    --samples-file $(pwd)/data/TID2013/tid_labels_train.json \
+    --image-dir /path/to/image/dir/local
+    ```
 This will start a training container from the Docker image `nima-cpu` and create a timestamp train job folder under `train_jobs`, where the trained model weights and logs will be stored. The `--image-dir` argument requires the path of the image directory on your local machine.
 
-  In order to stop the last launched container run
-```
-CONTAINER_ID=$(docker ps -l -q)
-docker container stop $CONTAINER_ID
-```
+In order to stop the last launched container run
+    ```bash
+    CONTAINER_ID=$(docker ps -l -q)
+    docker container stop $CONTAINER_ID
+    ```
 
-  In order to stream logs from last launched container run
-```
-CONTAINER_ID=$(docker ps -l -q)
-docker logs $CONTAINER_ID --follow
-```
+In order to stream logs from last launched container run
+    ```bash
+    CONTAINER_ID=$(docker ps -l -q)
+    docker logs $CONTAINER_ID --follow
+    ```
 
 ## Train remotely on AWS EC2
 
 1. Configure your AWS CLI. Ensure that your account has limits for GPU instances and read/write access to the S3 bucket specified in config file [[link](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html)]
-```
-aws configure
-```
+    ```bash
+    aws configure
+    ```
 
 2. Launch EC2 instance with Docker Machine. Choose an Ubuntu AMI based on your region (https://cloud-images.ubuntu.com/locator/ec2/).
 For example, to launch a `p2.xlarge` EC2 instance named `ec2-p2` run
 (NB: change region, VPC ID and AMI ID as per your setup)
-```
-docker-machine create --driver amazonec2 \
-                      --amazonec2-region eu-west-1 \
-                      --amazonec2-ami ami-58d7e821 \
-                      --amazonec2-instance-type p2.xlarge \
-                      --amazonec2-vpc-id vpc-abc \
-                      ec2-p2
-```
+    ```bash
+    docker-machine create --driver amazonec2 \
+                          --amazonec2-region eu-west-1 \
+                          --amazonec2-ami ami-58d7e821 \
+                          --amazonec2-instance-type p2.xlarge \
+                          --amazonec2-vpc-id vpc-abc \
+                          ec2-p2
+    ```
 
 3. ssh into EC2 instance
-
-```
-docker-machine ssh ec2-p2
-```
+    ```bash
+    docker-machine ssh ec2-p2
+    ```
 
 4. Update NVIDIA drivers and install **nvidia-docker** (see this [blog post](https://towardsdatascience.com/using-docker-to-set-up-a-deep-learning-environment-on-aws-6af37a78c551) for more details)
+    ```bash
+    # update NVIDIA drivers
+    sudo add-apt-repository ppa:graphics-drivers/ppa -y
+    sudo apt-get update
+    sudo apt-get install -y nvidia-375 nvidia-settings nvidia-modprobe
 
-```
-# update NVIDIA drivers
-sudo add-apt-repository ppa:graphics-drivers/ppa -y
-sudo apt-get update
-sudo apt-get install -y nvidia-375 nvidia-settings nvidia-modprobe
-
-# install nvidia-docker
-wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1-1_amd64.deb
-sudo dpkg -i /tmp/nvidia-docker_1.0.1-1_amd64.deb && rm /tmp/nvidia-docker_1.0.1-1_amd64.deb
-```
+    # install nvidia-docker
+    wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1-1_amd64.deb
+    sudo dpkg -i /tmp/nvidia-docker_1.0.1-1_amd64.deb && rm /tmp/nvidia-docker_1.0.1-1_amd64.deb
+    ```
 
 5. Download dataset to EC2 instance (see instructions under [Datasets](#datasets)). We recommend to save the AMI with the downloaded data for future use.
 
-
 6. Run the remote EC2 training script (e.g. for AVA dataset)
-```
-./train-ec2 \
---docker-machine ec2-p2 \
---config-file $(pwd)/models/MobileNet/config_mobilenet_aesthetic.json \
---samples-file $(pwd)/data/AVA/ava_labels_train.json \
---image-dir /path/to/image/dir/remote
-```
+    ```bash
+    ./train-ec2 \
+    --docker-machine ec2-p2 \
+    --config-file $(pwd)/models/MobileNet/config_aesthetic_gpu.json \
+    --samples-file $(pwd)/data/AVA/ava_labels_train.json \
+    --image-dir /path/to/image/dir/remote
+    ```
 The training progress will be streamed to your terminal. After the training has finished, the train outputs (logs and best model weights) will be stored on S3 in a timestamped folder. The S3 output bucket can be specified in the **config file**. The `--image-dir` argument requires the path of the image directory on your remote instance.
 
 
 ## Contribute
 We welcome all kinds of contributions and will publish the performances from new models in the performance table under [Trained models](#trained-models).
 
-For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet weights, you just have to change the `base_model_name` parameter in the config file `models/MobileNet/config_mobilenet_aesthetic.json` to "InceptionV3". You can also control all major hyperparameters in the config file, like learning rate, batch size, or dropout rate.
+For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet weights, you just have to change the `base_model_name` parameter in the config file `models/MobileNet/config_aesthetic_gpu.json` to "InceptionV3". You can also control all major hyperparameters in the config file, like learning rate, batch size, or dropout rate.
 
 See the [Contribution](CONTRIBUTING.md) guide for more details.
 
@@ -214,20 +212,20 @@ To get predictions from the aesthetic or technical model:
 1. Build the NIMA TFS Docker image `docker build -t tfs_nima contrib/tf_serving`
 2. Run a NIMA TFS container with `docker run -d --name tfs_nima -p 8500:8500 tfs_nima`
 3. Install python dependencies to run TF serving sample client
-```
-virtualenv -p python3 contrib/tf_serving/venv_tfs_nima
-source contrib/tf_serving/venv_tfs_nima/bin/activate
-pip install -r contrib/tf_serving/requirements.txt
-```
+    ```
+    virtualenv -p python3 contrib/tf_serving/venv_tfs_nima
+    source contrib/tf_serving/venv_tfs_nima/bin/activate
+    pip install -r contrib/tf_serving/requirements.txt
+    ```
 4. Get predictions from aesthetic or technical model by running the sample client
-```
-python -m contrib.tf_serving.tfs_sample_client --image-path src/tests/test_images/42039.jpg --model-name mobilenet_aesthetic
-python -m contrib.tf_serving.tfs_sample_client --image-path src/tests/test_images/42039.jpg --model-name mobilenet_technical
-```
+    ```
+    python -m contrib.tf_serving.tfs_sample_client --image-path src/tests/test_images/42039.jpg --model-name mobilenet_aesthetic
+    python -m contrib.tf_serving.tfs_sample_client --image-path src/tests/test_images/42039.jpg --model-name mobilenet_technical
+    ```
 
 ## Cite this work
 Please cite Image Quality Assessment in your publications if this is useful for your research. Here is an example BibTeX entry:
-```
+```BibTeX
 @misc{idealods2018imagequalityassessment,
   title={Image Quality Assessment},
   author={Christopher Lennan and Hao Nguyen and Dat Tran},

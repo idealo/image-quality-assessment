@@ -3,8 +3,8 @@ python:
 - '3.6'
 install:
 - pip install -r src/requirements.txt
-- pip install tensorflow==1.13.1
-- pip install mkdocs==1.0.4 mkdocs-material==4.3.0
+- pip install tensorflow==2.0.*
+- pip install mkdocs mkdocs-material
 script:
 - nosetests -vs src/tests
 - cd mkdocs && sh build_docs.sh
