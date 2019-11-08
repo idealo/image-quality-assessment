@@ -1,0 +1,957 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+        <meta name="author" content="idealo Data Science Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="img/favicon.ico">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
+    
+    
+      
+        <title>Image Quality Assessment</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/application.30686662.css">
+      
+        <link rel="stylesheet" href="assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="assets/fonts/material-icons.css">
+    
+    
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-137434942-3", "auto")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="white" data-md-color-accent="">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#image-quality-assessment" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="." title="Image Quality Assessment" class="md-header-nav__button md-logo">
+          
+            <img src="img/logo.svg" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Image Quality Assessment
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Home
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/idealo/image-quality-assessment/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    idealo/image-quality-assessment
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="." title="Image Quality Assessment" class="md-nav__button md-logo">
+      
+        <img src="img/logo.svg" width="48" height="48">
+      
+    </a>
+    Image Quality Assessment
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/idealo/image-quality-assessment/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    idealo/image-quality-assessment
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Home
+      </label>
+    
+    <a href="." title="Home" class="md-nav__link md-nav__link--active">
+      Home
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#trained-models" class="md-nav__link">
+    Trained models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predict" class="md-nav__link">
+    Predict
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#train-locally-on-cpu" class="md-nav__link">
+    Train locally on CPU
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#train-remotely-on-aws-ec2" class="md-nav__link">
+    Train remotely on AWS EC2
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Documentation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Documentation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-1" type="checkbox" id="nav-2-1">
+    
+    <label class="md-nav__link" for="nav-2-1">
+      Evaluater
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-1">
+        Evaluater
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="evaluater/predict/" title="Predict" class="md-nav__link">
+      Predict
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2">
+    
+    <label class="md-nav__link" for="nav-2-2">
+      Handlers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-2">
+        Handlers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="handlers/config_loader/" title="Config Loader" class="md-nav__link">
+      Config Loader
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="handlers/data_generator/" title="Data Generator" class="md-nav__link">
+      Data Generator
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="handlers/model_builder/" title="Model Builder" class="md-nav__link">
+      Model Builder
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="handlers/samples_loader/" title="Samples Loader" class="md-nav__link">
+      Samples Loader
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-3" type="checkbox" id="nav-2-3">
+    
+    <label class="md-nav__link" for="nav-2-3">
+      Trainer
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-3">
+        Trainer
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="trainer/train/" title="Train" class="md-nav__link">
+      Train
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-4" type="checkbox" id="nav-2-4">
+    
+    <label class="md-nav__link" for="nav-2-4">
+      Utils
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-4">
+        Utils
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="utils/losses/" title="Losses" class="md-nav__link">
+      Losses
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="utils/utils/" title="Utils" class="md-nav__link">
+      Utils
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="CONTRIBUTING/" title="Contribution" class="md-nav__link">
+      Contribution
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="LICENSE/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#trained-models" class="md-nav__link">
+    Trained models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predict" class="md-nav__link">
+    Predict
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#train-locally-on-cpu" class="md-nav__link">
+    Train locally on CPU
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#train-remotely-on-aws-ec2" class="md-nav__link">
+    Train remotely on AWS EC2
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/idealo/image-quality-assessment/edit/master/docs/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="image-quality-assessment">Image Quality Assessment</h1>
+<p><a href="https://travis-ci.org/idealo/image-quality-assessment"><img alt="Build Status" src="https://travis-ci.org/idealo/image-quality-assessment.svg?branch=master" /></a>
+<a href="https://idealo.github.io/image-quality-assessment/"><img alt="Docs" src="https://img.shields.io/badge/docs-online-brightgreen" /></a>
+<a href="https://github.com/idealo/image-quality-assessment/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-orange.svg" /></a></p>
+<p>This repository provides an implementation of an aesthetic and technical image quality model based on Google's research paper <a href="https://arxiv.org/pdf/1709.05424.pdf">"NIMA: Neural Image Assessment"</a>. You can find a quick introduction on their <a href="https://research.googleblog.com/2017/12/introducing-nima-neural-image-assessment.html">Research Blog</a>.</p>
+<p>NIMA consists of two models that aim to predict the aesthetic and technical quality of images, respectively. The models are trained via transfer learning, where ImageNet pre-trained CNNs are used and fine-tuned for the classification task.</p>
+<p>For more information on how we used NIMA for our specifc problem, we did a write-up on two blog posts:</p>
+<ul>
+<li>NVIDIA Developer Blog: <a href="https://devblogs.nvidia.com/deep-learning-hotel-aesthetics-photos/">Deep Learning for Classifying Hotel Aesthetics Photos</a></li>
+<li>Medium: <a href="https://medium.com/idealo-tech-blog/using-deep-learning-to-automatically-rank-millions-of-hotel-images-c7e2d2e5cae2">Using Deep Learning to automatically rank millions of hotel images</a></li>
+</ul>
+<p>The provided code allows to use any of the pre-trained models in <a href="https://keras.io/applications/">Keras</a>. We further provide Docker images for local CPU training and remote GPU training on AWS EC2, as well as pre-trained models on the <a href="https://github.com/ylogx/aesthetics/tree/master/data/ava">AVA</a> and <a href="http://www.ponomarenko.info/tid2013.htm">TID2013</a> datasets.</p>
+<p>Read the full documentation at: <a href="https://idealo.github.io/image-quality-assessment/">https://idealo.github.io/image-quality-assessment/</a>.</p>
+<p>Image quality assessment is compatible with Python 3.6 and is distributed under the Apache 2.0 license. We welcome all kinds of contributions, especially new model architectures and/or hyperparameter combinations that improve the performance of the currently published models (see <a href="#contribute">Contribute</a>).</p>
+<h2 id="trained-models">Trained models</h2>
+<table>
+<thead>
+<tr>
+<th align="center"><sub>Predictions from aesthetic model</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><img alt="" src="readme_figures/images_aesthetic/aesthetic1.jpg_aesthetic.svg" /></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th align="center"><sub>Predictions from technical model</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><img alt="" src="readme_figures/images_technical/techncial3.jpgtechnical.svg" /></td>
+</tr>
+</tbody>
+</table>
+<p>We provide trained models, for both aesthetic and technical classifications, that use MobileNet as the base CNN. The models and their respective config files are stored under <code>models/MobileNet</code>. They achieve the following performance</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Dataset</th>
+<th>EMD</th>
+<th>LCC</th>
+<th>SRCC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MobileNet aesthetic</td>
+<td>AVA</td>
+<td>0.071</td>
+<td>0.626</td>
+<td>0.609</td>
+</tr>
+<tr>
+<td>MobileNet technical</td>
+<td>TID2013</td>
+<td>0.107</td>
+<td>0.652</td>
+<td>0.675</td>
+</tr>
+</tbody>
+</table>
+<h2 id="getting-started">Getting started</h2>
+<ol>
+<li>
+<p>Install <a href="https://stedolan.github.io/jq/download/">jq</a></p>
+</li>
+<li>
+<p>Install <a href="https://docs.docker.com/install/">Docker</a></p>
+</li>
+<li>
+<p>Build docker image <code>docker build -t nima-cpu . -f Dockerfile.cpu</code></p>
+</li>
+</ol>
+<p>In order to train remotely on <strong>AWS EC2</strong></p>
+<ol>
+<li>
+<p>Install <a href="https://docs.docker.com/machine/install-machine/">Docker Machine</a></p>
+</li>
+<li>
+<p>Install <a href="https://docs.aws.amazon.com/cli/latest/userguide/installing.html">AWS Command Line Interface</a></p>
+</li>
+</ol>
+<h2 id="predict">Predict</h2>
+<p>In order to run predictions on an image or batch of images you can run the prediction script</p>
+<ol>
+<li>
+<p>Single image file
+    <code>bash
+    ./predict  \
+    --docker-image nima-cpu \
+    --base-model-name MobileNet \
+    --weights-file $(pwd)/models/MobileNet/weights_mobilenet_technical_0.11.hdf5 \
+    --image-source $(pwd)/src/tests/test_images/42039.jpg</code></p>
+</li>
+<li>
+<p>All image files in a directory
+    <code>bash
+    ./predict  \
+    --docker-image nima-cpu \
+    --base-model-name MobileNet \
+    --weights-file $(pwd)/models/MobileNet/weights_mobilenet_technical_0.11.hdf5 \
+    --image-source $(pwd)/src/tests/test_images</code></p>
+</li>
+</ol>
+<h2 id="train-locally-on-cpu">Train locally on CPU</h2>
+<ol>
+<li>
+<p>Download dataset (see instructions under <a href="#datasets">Datasets</a>)</p>
+</li>
+<li>
+<p>Run the local training script (e.g. for TID2013 dataset)
+    <code>bash
+    ./train-local \
+    --config-file $(pwd)/models/MobileNet/config_technical_cpu.json \
+    --samples-file $(pwd)/data/TID2013/tid_labels_train.json \
+    --image-dir /path/to/image/dir/local</code>
+This will start a training container from the Docker image <code>nima-cpu</code> and create a timestamp train job folder under <code>train_jobs</code>, where the trained model weights and logs will be stored. The <code>--image-dir</code> argument requires the path of the image directory on your local machine.</p>
+</li>
+</ol>
+<p>In order to stop the last launched container run
+    <code>bash
+    CONTAINER_ID=$(docker ps -l -q)
+    docker container stop $CONTAINER_ID</code></p>
+<p>In order to stream logs from last launched container run
+    <code>bash
+    CONTAINER_ID=$(docker ps -l -q)
+    docker logs $CONTAINER_ID --follow</code></p>
+<h2 id="train-remotely-on-aws-ec2">Train remotely on AWS EC2</h2>
+<ol>
+<li>
+<p>Configure your AWS CLI. Ensure that your account has limits for GPU instances and read/write access to the S3 bucket specified in config file [<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">link</a>]
+    <code>bash
+    aws configure</code></p>
+</li>
+<li>
+<p>Launch EC2 instance with Docker Machine. Choose an Ubuntu AMI based on your region (https://cloud-images.ubuntu.com/locator/ec2/).
+For example, to launch a <code>p2.xlarge</code> EC2 instance named <code>ec2-p2</code> run
+(NB: change region, VPC ID and AMI ID as per your setup)
+    <code>bash
+    docker-machine create --driver amazonec2 \
+                          --amazonec2-region eu-west-1 \
+                          --amazonec2-ami ami-58d7e821 \
+                          --amazonec2-instance-type p2.xlarge \
+                          --amazonec2-vpc-id vpc-abc \
+                          ec2-p2</code></p>
+</li>
+<li>
+<p>ssh into EC2 instance
+    <code>bash
+    docker-machine ssh ec2-p2</code></p>
+</li>
+<li>
+<p>Update NVIDIA drivers and install <strong>nvidia-docker</strong> (see this <a href="https://towardsdatascience.com/using-docker-to-set-up-a-deep-learning-environment-on-aws-6af37a78c551">blog post</a> for more details)
+    ```bash
+    # update NVIDIA drivers
+    sudo add-apt-repository ppa:graphics-drivers/ppa -y
+    sudo apt-get update
+    sudo apt-get install -y nvidia-375 nvidia-settings nvidia-modprobe</p>
+<h1 id="install-nvidia-docker">install nvidia-docker</h1>
+<p>wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1-1_amd64.deb
+sudo dpkg -i /tmp/nvidia-docker_1.0.1-1_amd64.deb &amp;&amp; rm /tmp/nvidia-docker_1.0.1-1_amd64.deb
+```</p>
+</li>
+<li>
+<p>Download dataset to EC2 instance (see instructions under <a href="#datasets">Datasets</a>). We recommend to save the AMI with the downloaded data for future use.</p>
+</li>
+<li>
+<p>Run the remote EC2 training script (e.g. for AVA dataset)
+    <code>bash
+    ./train-ec2 \
+    --docker-machine ec2-p2 \
+    --config-file $(pwd)/models/MobileNet/config_aesthetic_gpu.json \
+    --samples-file $(pwd)/data/AVA/ava_labels_train.json \
+    --image-dir /path/to/image/dir/remote</code>
+The training progress will be streamed to your terminal. After the training has finished, the train outputs (logs and best model weights) will be stored on S3 in a timestamped folder. The S3 output bucket can be specified in the <strong>config file</strong>. The <code>--image-dir</code> argument requires the path of the image directory on your remote instance.</p>
+</li>
+</ol>
+<h2 id="contribute">Contribute</h2>
+<p>We welcome all kinds of contributions and will publish the performances from new models in the performance table under <a href="#trained-models">Trained models</a>.</p>
+<p>For example, to train a new aesthetic NIMA model based on InceptionV3 ImageNet weights, you just have to change the <code>base_model_name</code> parameter in the config file <code>models/MobileNet/config_aesthetic_gpu.json</code> to "InceptionV3". You can also control all major hyperparameters in the config file, like learning rate, batch size, or dropout rate.</p>
+<p>See the <a href="CONTRIBUTING/">Contribution</a> guide for more details.</p>
+<h2 id="datasets">Datasets</h2>
+<p>This project uses two datasets to train the NIMA model:</p>
+<ol>
+<li><a href="https://github.com/ylogx/aesthetics/tree/master/data/ava"><strong>AVA</strong></a> used for aesthetic ratings (<a href="http://academictorrents.com/details/71631f83b11d3d79d8f84efe0a7e12f0ac001460">data</a>)</li>
+<li><a href="http://www.ponomarenko.info/tid2013.htm"><strong>TID2013</strong></a> used for technical ratings</li>
+</ol>
+<p>For training on AWS EC2 we recommend to build a custom AMI with the AVA images stored on it. This has proven much more viable than copying the entire dataset from S3 to the instance for each training job.</p>
+<h2 id="label-files">Label files</h2>
+<p>The <strong>train</strong> script requires JSON label files in the format</p>
+<div class="codehilite"><pre><span></span><span class="p">[</span>
+  <span class="err">{</span>
+    <span class="ss">&quot;image_id&quot;</span><span class="p">:</span> <span class="ss">&quot;231893&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;label&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">36</span><span class="p">,</span><span class="mi">76</span><span class="p">,</span><span class="mi">52</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+  <span class="err">}</span><span class="p">,</span>
+  <span class="err">{</span>
+    <span class="ss">&quot;image_id&quot;</span><span class="p">:</span> <span class="ss">&quot;746672&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;label&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="mi">52</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+  <span class="err">}</span><span class="p">,</span>
+  <span class="p">...</span>
+<span class="p">]</span>
+</pre></div>
+
+
+<p>The label for each image is the normalized or un-normalized frequency distribution of ratings 1-10.</p>
+<p>For the AVA dataset these frequency distributions are given in the raw data files. For the TID2013 dataset we inferred the normalized frequency distribution, i.e. probability distribution, by finding the maximum entropy distribution that satisfies the mean score. The code to generate the TID2013 labels can be found under <code>data/TID2013/get_labels.py</code>.</p>
+<p>For both datasets we provide train and test set label files stored under</p>
+<div class="codehilite"><pre><span></span><span class="k">data</span><span class="o">/</span><span class="n">AVA</span><span class="o">/</span><span class="n">ava_labels_train</span><span class="p">.</span><span class="n">json</span>
+<span class="k">data</span><span class="o">/</span><span class="n">AVA</span><span class="o">/</span><span class="n">ava_labels_test</span><span class="p">.</span><span class="n">json</span>
+</pre></div>
+
+
+<p>and</p>
+<div class="codehilite"><pre><span></span><span class="k">data</span><span class="o">/</span><span class="n">TID2013</span><span class="o">/</span><span class="n">tid2013_labels_train</span><span class="p">.</span><span class="n">json</span>
+<span class="k">data</span><span class="o">/</span><span class="n">TID2013</span><span class="o">/</span><span class="n">tid2013_labels_test</span><span class="p">.</span><span class="n">json</span>
+</pre></div>
+
+
+<p>For the AVA dataset we randomly assigned 90% of samples to the train set, and 10% to the test set, and throughout training a 5% validation set will be split from the training set to evaluate the training performance after each epoch. For the TID2013 dataset we split the train/test sets by reference images, to ensure that no reference image, and any of its distortions, enters both the train and test set.</p>
+<h2 id="serving-nima-with-tensorflow-serving">Serving NIMA with TensorFlow Serving</h2>
+<p>TensorFlow versions of both the technical and aesthetic MobileNet models are provided,
+along with the script to generate them from the original Keras files, under the <code>contrib/tf_serving</code> directory.</p>
+<p>There is also an already configured TFS <code>Dockerfile</code> that you can use.</p>
+<p>To get predictions from the aesthetic or technical model:
+1. Build the NIMA TFS Docker image <code>docker build -t tfs_nima contrib/tf_serving</code>
+2. Run a NIMA TFS container with <code>docker run -d --name tfs_nima -p 8500:8500 tfs_nima</code>
+3. Install python dependencies to run TF serving sample client
+    <code>virtualenv -p python3 contrib/tf_serving/venv_tfs_nima
+    source contrib/tf_serving/venv_tfs_nima/bin/activate
+    pip install -r contrib/tf_serving/requirements.txt</code>
+4. Get predictions from aesthetic or technical model by running the sample client
+    <code>python -m contrib.tf_serving.tfs_sample_client --image-path src/tests/test_images/42039.jpg --model-name mobilenet_aesthetic
+    python -m contrib.tf_serving.tfs_sample_client --image-path src/tests/test_images/42039.jpg --model-name mobilenet_technical</code></p>
+<h2 id="cite-this-work">Cite this work</h2>
+<p>Please cite Image Quality Assessment in your publications if this is useful for your research. Here is an example BibTeX entry:</p>
+<div class="codehilite"><pre><span></span><span class="nc">@misc</span><span class="p">{</span><span class="nl">idealods2018imagequalityassessment</span><span class="p">,</span>
+  <span class="na">title</span><span class="p">=</span><span class="s">{Image Quality Assessment}</span><span class="p">,</span>
+  <span class="na">author</span><span class="p">=</span><span class="s">{Christopher Lennan and Hao Nguyen and Dat Tran}</span><span class="p">,</span>
+  <span class="na">year</span><span class="p">=</span><span class="s">{2018}</span><span class="p">,</span>
+  <span class="na">howpublished</span><span class="p">=</span><span class="s">{\url{https://github.com/idealo/image-quality-assessment}}</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="maintainers">Maintainers</h2>
+<ul>
+<li>Christopher Lennan, github: <a href="https://github.com/clennan">clennan</a></li>
+<li>Hao Nguyen, github: <a href="https://github.com/MrBanhBao">MrBanhBao</a></li>
+<li>Dat Tran, github: <a href="https://github.com/datitran">datitran</a></li>
+</ul>
+<h2 id="copyright">Copyright</h2>
+<p>See <a href="LICENSE">LICENSE</a> for details.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+        
+          <a href="evaluater/predict/" title="Predict" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Predict
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="assets/javascripts/application.ac79c3b0.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"."}})</script>
+      
+    
+  </body>
+</html>
