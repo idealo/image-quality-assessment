@@ -1,3 +1,4 @@
 nose
 sklearn
 pillow==5.0.*
+Flask==1.0.*
