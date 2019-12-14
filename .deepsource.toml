@@ -1,0 +1,9 @@
+version = 1
+
+test_patterns = [
+  "src/tests/**/test_*.py"
+]
+
+[[analyzers]]
+name = "python"
+enabled = true

@@ -59,7 +59,7 @@ def skip_space_line(parts, ind):
 
 # check if comment is None or len(comment) == 0 return {}
 def parse_func_string(comment):
-    if comment is None or len(comment) == 0:
+    if comment is None or not comment:
         return {}
     comments = {}
     paras = ('Args', 'Attributes', 'Returns', 'Raises')
@@ -83,7 +83,7 @@ def parse_func_string(comment):
             ind += 1
 
     comments['short_description'] = '\n'.join(
-        ['\n'.join(re.split('\n\s+', x.strip())) for x in parts[0:ind]]
+        '\n'.join(re.split('\n\s+', x.strip())) for x in parts[0:ind]
     ).strip(':\n\t ')
     ind = skip_space_line(parts, ind)
 
@@ -94,7 +94,7 @@ def parse_func_string(comment):
         else:
             ind += 1
     long_description = '\n'.join(
-        ['\n'.join(re.split('\n\s+', x.strip())) for x in parts[start:ind]]
+        '\n'.join(re.split('\n\s+', x.strip())) for x in parts[start:ind]
     ).strip(':\n\t ')
     comments['long_description'] = long_description
 
@@ -222,7 +222,7 @@ def get_comments_str(file_name):
 
 
 def extract_comments(directory):
-    for parent, dir_names, file_names in os.walk(directory):
+    for parent, _, file_names in os.walk(directory):
         for file_name in file_names:
             if os.path.splitext(file_name)[1] == '.py' and file_name != '__init__.py':
                 # with open
@@ -230,10 +230,8 @@ def extract_comments(directory):
                 directory = os.path.join('docs', parent.replace('../src/', ''))
                 if not os.path.exists(directory):
                     os.makedirs(directory)
-
-                output_file = open(os.path.join(directory, file_name[:-3] + '.md'), 'w')
-                output_file.write(doc)
-                output_file.close()
+                with open(os.path.join(directory, file_name[:-3] + '.md'), 'w') as output_file:
+                    output_file.write(doc)
 
 
 extract_comments('../src/')
