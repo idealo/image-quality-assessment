@@ -121,3 +121,5 @@ mkdocs/docs/index.md
 mkdocs/docs/CONTRIBUTING.md
 mkdocs/docs/LICENSE.md
 /docs
+
+*.log
