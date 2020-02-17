@@ -311,12 +311,39 @@ def get_params_from_image_id(image_id):
                     data[k] = val
     return data
 
+
 def get_combos_in_current_dir():
     imgs = glob.glob("*.jpg")
     params = [get_params_from_image_id(img.rstrip(".jpg")) for img in imgs]
     for p in params:
         del p["location"]
     return params
+
+
+def get_bad_params_from_manually_verified_file(path):
+    all_data = []
+    with open(path, "r") as f:
+        for line in f.readlines():
+            line = [el.strip() for el in line.split(",")]
+            print(line)
+            if line[1] == "bad":
+                image_id = os.path.split(line[0])[-1].rstrip(".jpg")
+                print(image_id)
+                all_data.append(get_params_from_image_id(image_id))
+    return all_data
+
+
+def get_bad_params_from_json_files(base):
+    json_files = glob.glob(os.path.join(base, "*.json"))
+    desired_keys = {'color', 'color-temp', 'exposure', 'led-brightness', 'location', 'orientation'}
+    all_data = []
+    for jsf in json_files:
+        with open(jsf, "r") as f:
+            data = json.load(f)
+        for record in data:
+            new_record = {k: v for k, v in record.items() if k in desired_keys}
+            all_data.append(new_record)
+    return all_data
 
     
 NUM_LEDS = 46
@@ -360,6 +387,7 @@ def main():
 
     # If we already tried some params and there are pics in the current directory, skip them
     existing_combos = get_combos_in_current_dir()
+    pprint(existing_combos)
     #pprint(existing_combos)
     print("Initial number of combos to try: {}".format(len(all_combos)))
     print("Initial number of autobal combos to try: {}".format(len(autobal_combos)))
@@ -367,6 +395,7 @@ def main():
     autobal_combos = [c for c in autobal_combos if c not in existing_combos]
     print("Remaining number of combos after skipping existing: {}".format(len(all_combos)))
     print("Remaining number of autobal combos after skipping existing: {}".format(len(autobal_combos)))
+    quit()
 
     # First test param set with auto white balance
     total_combos = len(all_combos)
