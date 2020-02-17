@@ -1,0 +1,6 @@
+FROM kwrobert/qualipy
+
+RUN pip install --user joblib # numba
+COPY run_qualipy_analysis.py /opt/app
+
+CMD ["python", "run_qualipy_analysis.py"]
