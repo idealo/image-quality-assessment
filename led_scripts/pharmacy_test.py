@@ -42,12 +42,15 @@
 #          step: 1
 #          default: 4600
 
+import os
 import board
 import neopixel
 import random
 import requests
 import time
 import glob
+import argparse
+import json
 
 from pprint import pprint
 from itertools import product, repeat
@@ -325,19 +328,16 @@ def get_bad_params_from_manually_verified_file(path):
     with open(path, "r") as f:
         for line in f.readlines():
             line = [el.strip() for el in line.split(",")]
-            print(line)
             if line[1] == "bad":
                 image_id = os.path.split(line[0])[-1].rstrip(".jpg")
-                print(image_id)
                 all_data.append(get_params_from_image_id(image_id))
     return all_data
 
 
-def get_bad_params_from_json_files(base):
-    json_files = glob.glob(os.path.join(base, "*.json"))
+def get_bad_params_from_json_files(paths):
     desired_keys = {'color', 'color-temp', 'exposure', 'led-brightness', 'location', 'orientation'}
     all_data = []
-    for jsf in json_files:
+    for jsf in paths:
         with open(jsf, "r") as f:
             data = json.load(f)
         for record in data:
@@ -346,14 +346,21 @@ def get_bad_params_from_json_files(base):
     return all_data
 
     
-NUM_LEDS = 46
 FILE_PREFIX = "bottom"
-FOCUS_SLEEP_SECONDS = 2.8
 
 def main():
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-n", "--num_leds", type=int, required=True, default=46, help="Number of LEDs")
+    parser.add_argument("-p", "--prefix", type=str, required=True, help="File prefix")
+    parser.add_argument("-s", "--seconds", type=float, default=2.8, help="Focus sleep seconds")
+    parser.add_argument("-j", "--json", type=str, action="append", help="JSON files containing params to skip")
+    args = parser.parse_args()
+    global FOCUS_SLEEP_SECONDS 
+    FOCUS_SLEEP_SECONDS = args.seconds
+
     set_manual_exposure_mode()
-    strip = LEDControl(NUM_LEDS, 1)
+    strip = LEDControl(args.num_leds, 1)
     settings = {
             "color": 
                 (#"yellow",
@@ -364,7 +371,7 @@ def main():
                  #"white", #"carbon-arc", "halogen", "warm-flourescent", "standard-flourescent", "full-spectrum-flourescent",
                  #"off"
                  ),
-            "led-brightness": (1, .75, .5), 
+            "led-brightness": (1.0, .75, .5), 
             "exposure": (500, 750, 1000, 1500, 2000), 
             "color-temp": tuple(range(2200, 3800, 200)),
             "orientation": ("back-strip-only", "left-strip-only", "right-strip-only", "full-strip", "left-strip-linear-fade", "left-strip-linear-fade-back-dim", "right-strip-linear-fade", "right-strip-linear-fade-back-dim", "left-right-linear-fade", "left-right-linear-fade-back-dim", "linear-fade-towards-back-middle")
@@ -387,15 +394,21 @@ def main():
 
     # If we already tried some params and there are pics in the current directory, skip them
     existing_combos = get_combos_in_current_dir()
-    pprint(existing_combos)
+    print(len(existing_combos))
+    existing_combos.extend(get_bad_params_from_json_files(args.json))
+    print(existing_combos[0])
+    for d in existing_combos:
+        if "location" in d:
+            del d["location"]
+    #pprint(existing_combos)
     #pprint(existing_combos)
     print("Initial number of combos to try: {}".format(len(all_combos)))
     print("Initial number of autobal combos to try: {}".format(len(autobal_combos)))
+    print("Number of existing combinations: {}".format(len(existing_combos)))
     all_combos = [c for c in all_combos if c not in existing_combos]
     autobal_combos = [c for c in autobal_combos if c not in existing_combos]
     print("Remaining number of combos after skipping existing: {}".format(len(all_combos)))
     print("Remaining number of autobal combos after skipping existing: {}".format(len(autobal_combos)))
-    quit()
 
     # First test param set with auto white balance
     total_combos = len(all_combos)
@@ -413,7 +426,7 @@ def main():
         print("#"*40)
         time_remaining = (total_combos - num_completed)*FOCUS_SLEEP_SECONDS
         print(f"Testing parameter set {num_completed} of {total_combos}. ETA: {time_remaining} seconds")
-        take_picture_with_params(strip, combo, FILE_PREFIX) 
+        take_picture_with_params(strip, combo, args.prefix) 
         num_completed += 1
     strip.deinit()
 
