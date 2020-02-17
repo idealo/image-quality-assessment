@@ -20,7 +20,7 @@ def image_dir_to_json(img_dir, img_type='jpg'):
 
     samples = []
     for img_path in img_paths:
-        img_id = os.path.basename(img_path).split('.')[0]
+        img_id = os.path.basename(img_path).rsplit('.', 1)[0]
         samples.append({'image_id': img_id})
 
     return samples
