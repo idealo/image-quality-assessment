@@ -35,7 +35,7 @@ def get_image_quality_predictions(image_path, model_name):
     request.model_spec.signature_name = 'image_quality'
 
     request.inputs['input_image'].CopyFrom(
-        tf.contrib.util.make_tensor_proto(np.expand_dims(image, 0))
+        tf.compat.v1.make_tensor_proto(np.expand_dims(image, 0))
     )
 
     response = stub.Predict(request, 10.0)
