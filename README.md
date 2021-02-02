@@ -213,7 +213,7 @@ To get predictions from the aesthetic or technical model:
 2. Run a NIMA TFS container with `docker run -d --name tfs_nima -p 8500:8500 tfs_nima`
 3. Install python dependencies to run TF serving sample client
     ```
-    virtualenv -p python3 contrib/tf_serving/venv_tfs_nima
+    virtualenv -p python3.6 contrib/tf_serving/venv_tfs_nima
     source contrib/tf_serving/venv_tfs_nima/bin/activate
     pip install -r contrib/tf_serving/requirements.txt
     ```
