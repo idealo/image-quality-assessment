@@ -10,7 +10,7 @@ from handlers.data_generator import TestDataGenerator
 
 def image_file_to_json(img_path):
     img_dir = os.path.dirname(img_path)
-    img_id = os.path.basename(img_path).split('.')[0]
+    img_id = os.path.splitext(os.path.basename(img_path))[0]
 
     return img_dir, [{'image_id': img_id}]
 
@@ -20,7 +20,7 @@ def image_dir_to_json(img_dir, img_type='jpg'):
 
     samples = []
     for img_path in img_paths:
-        img_id = os.path.basename(img_path).split('.')[0]
+        img_id = os.path.splitext(os.path.basename(img_path))[0]
         samples.append({'image_id': img_id})
 
     return samples
